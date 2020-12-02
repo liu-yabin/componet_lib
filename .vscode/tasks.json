@@ -1,0 +1,98 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "cmake",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/install/my_componet_lib",
+                ".."
+            ],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/builds"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                ".",
+                "--config",
+                "Debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$gcc",
+            "dependsOn": [
+                "cmake"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/builds"
+            }
+        },
+        {
+            "label": "install",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--install",
+                ".",
+                "--config",
+                "Debug"
+            ],
+            "group": "build",
+            "problemMatcher": "$gcc",
+            "options": {
+                "cwd": "${workspaceFolder}/builds"
+            }
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "rd /s /q builds & mkdir builds",
+            "problemMatcher": []
+        },
+        {
+            "label": "test_cmake",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-DCMAKE_PREFIX_PATH=${workspaceFolder}/install",
+                ".."
+            ],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/use_my_componet_lib/builds"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "test_build",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                ".",
+                "--config",
+                "Debug"
+            ],
+            "group": "build",
+            "problemMatcher": "$gcc",
+            "dependsOn": [
+                "test_cmake"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/use_my_componet_lib/builds"
+            }
+        }
+    ]
+}
